@@ -1,0 +1,38 @@
+{
+    "authors": [
+        {
+            "email": "denis.lityagin@gmail.com",
+            "name": "Denis Lityagin"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dlart\\CQRS\\": "src/",
+            "Dlart\\CQRS\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "description": "Tools for CQRS projects.",
+    "keywords": [
+        "cqrs",
+        "php"
+    ],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "name": "dlart/cqrs",
+    "require": {
+        "beberlei/assert": "^2.7",
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.3",
+        "phpunit/phpunit": "^6.1"
+    },
+    "support": {
+        "issues": "https://github.com/dlart/cqrs/issues"
+    },
+    "type": "library",
+    "version": "1.0.0"
+}

@@ -1,0 +1,30 @@
+<?php
+
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$header = <<<HEADER
+This file is part of CQRS package.
+
+(c) Denis Lityagin <denis.lityagin@gmail.com>
+
+This source file is subject to the MIT license that is bundled with this 
+source code in the file LICENSE.
+HEADER;
+
+return Config::create()
+    ->setFinder(Finder::create()->in([
+        __DIR__.DIRECTORY_SEPARATOR.'src',
+        __DIR__.DIRECTORY_SEPARATOR.'tests',
+    ]))
+    ->setRules([
+        '@PSR2' => true,
+        '@Symfony' => true,
+        'array_syntax' => [
+            'syntax' => 'short',
+        ],
+        'header_comment' => [
+            'header' => $header,
+        ],
+    ])
+;
