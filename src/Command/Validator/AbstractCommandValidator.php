@@ -14,6 +14,7 @@ namespace Dlart\CQRS\Command\Validator;
 use Assert\Assertion;
 use Dlart\CQRS\Command\CommandInterface as Command;
 use Dlart\CQRS\Command\Validator\CommandValidatorInterface as CommandValidator;
+use Verraes\ClassFunctions\ClassFunctions;
 
 /**
  * AbstractCommandValidator.
@@ -27,44 +28,13 @@ abstract class AbstractCommandValidator implements CommandValidator
      */
     public function handle(Command $command): void
     {
-        $this->assertThatHandleMethodForCommandIsExist($command);
+        $handleMethodName = 'handle'.ClassFunctions::short($command);
 
-        $validateMethodName = $this->getHandleMethodNameForCommand($command);
-
-        $this->$validateMethodName($command);
-    }
-
-    /**
-     * @param Command $command
-     */
-    private function assertThatHandleMethodForCommandIsExist(
-        Command $command
-    ): void {
         Assertion::methodExists(
-            $this->getHandleMethodNameForCommand($command),
+            $handleMethodName,
             $this
         );
-    }
 
-    /**
-     * @param Command $command
-     *
-     * @return string
-     */
-    private function getHandleMethodNameForCommand(Command $command): string
-    {
-        return 'handle'.$this->getNameOfCommand($command);
-    }
-
-    /**
-     * @param Command $command
-     *
-     * @return string
-     */
-    private function getNameOfCommand(Command $command): string
-    {
-        $fullyQualifiedCommandClassParts = explode('\\', get_class($command));
-
-        return end($fullyQualifiedCommandClassParts);
+        $this->$handleMethodName($command);
     }
 }
