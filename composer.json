@@ -23,8 +23,9 @@
     "minimum-stability": "stable",
     "name": "dlart/cqrs",
     "require": {
+        "php": ">=7.1.0",
         "beberlei/assert": "^2.7",
-        "php": ">=7.1.0"
+        "mathiasverraes/classfunctions": "^1.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.3",

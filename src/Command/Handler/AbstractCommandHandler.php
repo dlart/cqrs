@@ -14,6 +14,7 @@ namespace Dlart\CQRS\Command\Handler;
 use Assert\Assertion;
 use Dlart\CQRS\Command\CommandInterface as Command;
 use Dlart\CQRS\Command\Handler\CommandHandlerInterface as CommandHandler;
+use Verraes\ClassFunctions\ClassFunctions;
 
 /**
  * AbstractCommandHandler.
@@ -27,44 +28,13 @@ abstract class AbstractCommandHandler implements CommandHandler
      */
     public function handle(Command $command): void
     {
-        $this->assertThatHandleMethodForCommandIsExist($command);
+        $handleMethodName = 'handle'.ClassFunctions::short($command);
 
-        $handleMethodName = $this->getHandleMethodNameForCommand($command);
-
-        $this->$handleMethodName($command);
-    }
-
-    /**
-     * @param Command $command
-     */
-    private function assertThatHandleMethodForCommandIsExist(
-        Command $command
-    ): void {
         Assertion::methodExists(
-            $this->getHandleMethodNameForCommand($command),
+            $handleMethodName,
             $this
         );
-    }
 
-    /**
-     * @param Command $command
-     *
-     * @return string
-     */
-    private function getHandleMethodNameForCommand(Command $command): string
-    {
-        return 'handle'.$this->getNameOfCommand($command);
-    }
-
-    /**
-     * @param Command $command
-     *
-     * @return string
-     */
-    private function getNameOfCommand(Command $command): string
-    {
-        $fullyQualifiedCommandClassParts = explode('\\', get_class($command));
-
-        return end($fullyQualifiedCommandClassParts);
+        $this->$handleMethodName($command);
     }
 }
