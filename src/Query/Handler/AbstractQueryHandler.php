@@ -15,6 +15,7 @@ use Assert\Assertion;
 use Dlart\CQRS\Query\Handler\QueryHandlerInterface as QueryHandler;
 use Dlart\CQRS\Query\QueryInterface as Query;
 use Dlart\CQRS\Query\Result\QueryResultInterface as QueryResult;
+use Verraes\ClassFunctions\ClassFunctions;
 
 /**
  * AbstractQueryHandler.
@@ -30,44 +31,13 @@ abstract class AbstractQueryHandler implements QueryHandler
      */
     public function handle(Query $query): QueryResult
     {
-        $this->assertThatHandleMethodForQueryIsExist($query);
+        $handleMethodName = 'handle'.ClassFunctions::short($query);
 
-        $handleMethod = $this->getHandleMethodNameForQuery($query);
-
-        return $this->$handleMethod($query);
-    }
-
-    /**
-     * @param Query $query
-     */
-    private function assertThatHandleMethodForQueryIsExist(
-        Query $query
-    ): void {
         Assertion::methodExists(
-            $this->getHandleMethodNameForQuery($query),
+            $handleMethodName,
             $this
         );
-    }
 
-    /**
-     * @param Query $query
-     *
-     * @return string
-     */
-    private function getHandleMethodNameForQuery(Query $query): string
-    {
-        return 'handle'.$this->getNameOfQuery($query);
-    }
-
-    /**
-     * @param Query $query
-     *
-     * @return string
-     */
-    private function getNameOfQuery(Query $query): string
-    {
-        $fullyQualifiedQueryClassParts = explode('\\', get_class($query));
-
-        return end($fullyQualifiedQueryClassParts);
+        return $this->$handleMethodName($query);
     }
 }
